@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller{
@@ -32,12 +34,16 @@ public class Controller{
     @FXML
     ComboBox comboBox;
 
+    @FXML
+    List<String> clietntsList;
+
     Socket socket;
     DataInputStream input;
     DataOutputStream output;
 
     final String IP_ADRESS = "localhost";
     final int PORT = 9999;
+    String selfName="";
 
     private boolean isAuthorized;
 
@@ -82,12 +88,25 @@ public class Controller{
                         }
 
                         //Сообщения
+
                         while (true) {
                                 msg = input.readUTF();
+                                if (msg.startsWith("/cL#")) {
+                                    msg=msg.replace(selfName+";","");
+                                    msg.substring(msg.indexOf('#') + 1, msg.length()).split(";");
+                                    clietntsList = Arrays.asList(msg.substring(msg.indexOf('#') + 1, msg.length()).split(";"));
+                                    System.out.println(clietntsList);
 
-                                //comboBox.getItems().addAll("Всем: ","11111","22222","3333");
-
-                                textArea.appendText(msg + "\n");
+                                    comboBox.getItems().clear();
+                                    //comboBox.getItems().addAll("Всем");
+                                    comboBox.getItems().addAll(clietntsList);
+                                }
+                               /* else if (msg.startsWith("/sN#")){
+                                    selfName = msg.substring(msg.indexOf('#') + 1, msg.length());
+                                    System.out.println(selfName);
+                                }*/
+                                else
+                                    textArea.appendText(msg + "\n");
                         }
                     } catch (IOException e) {
                         disconnect();
@@ -121,18 +140,21 @@ public class Controller{
             loginFiled.clear();
             passwordField.clear();
         } catch (IOException e) {
-            e.printStackTrace();
+            disconnect();
+            //e.printStackTrace();
         }
     }
-
-
 
     //Отправка сообщения
     public void sendMsg() {
         if (!textField.getText().isEmpty()) {
             //textArea.appendText(textField.getText() + "\n");
             try {
-                output.writeUTF(textField.getText());
+                System.out.println(comboBox.getValue());
+                if (comboBox.getValue() == null)
+                    output.writeUTF(textField.getText());
+                else
+                    output.writeUTF("/w#"+comboBox.getValue()+"#"+textField.getText());
                 textField.clear();
                 textField.requestFocus();
             } catch (IOException e) {
@@ -142,9 +164,9 @@ public class Controller{
     }
 
     public void disconnect(){
-        textArea.appendText("======/Нет связи с сервером/=====");
-        btn1.setDisable(true);
-        textField.setDisable(true);
+        textArea.appendText("======/Нет связи с сервером/=====\n");
+//        btn1.setDisable(true);
+//        textField.setDisable(true);
         textField.setText("Нет связи с сервером");
     }
 }

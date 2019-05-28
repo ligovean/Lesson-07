@@ -30,10 +30,12 @@ public class ClientHandler {
                         if(str.startsWith("/auth")) {
                             String[] tokens = str.split(" ");
                             String newNick = AuthServ.getNameByLogPass(tokens[1], tokens[2]);
-                            if (newNick != null) {
+
+                            if (newNick != null && !server.checkClient(newNick)) {
                                 sendMsg("/authok");
                                 clientName = newNick;
-                                    server.connect(ClientHandler.this);
+                                //sendMsg("/sN#"+clientName);//Собственное имя
+                                server.connect(ClientHandler.this);
                                 break;
                             } else {
                                 sendMsg("Неверный логин/пароль!");
@@ -44,7 +46,6 @@ public class ClientHandler {
                     //СООБЩЕНИЯ
                     while (true) {
                         String msg = input.readUTF();
-
                         if(msg.startsWith("/end")) {
                             //Остановка клиента по стопслову /end
                             server.disconnect(ClientHandler.this);

@@ -50,12 +50,32 @@ public class ServerMain {
     public void connect(ClientHandler client){
         //Трансляция сообщения о том, что клиент вошел в чат
         clientPool.add(client);
+        //Передача списка клиентов
+        String clientNames="";
+        for (ClientHandler clients:clientPool) {
+            //if (clientNames.isEmpty())
+                clientNames += clients.getName()+";";
+            //else
+              //  clientNames += (";" + clients.getName());
+        }
+        broadcastMsg("/cL#" +clientNames);//Отправка списка Клиентов
         broadcastMsg("======/" + client.getName() + " вошел в чат!/======");
     }
 
     public void disconnect(ClientHandler client){
         //Трансляция сообщения о том, что клиент вышел из чата
         clientPool.remove(client);
+
+        //Передача списка клиентов
+        String clientNames="";
+        for (ClientHandler clients:clientPool) {
+            if (clientNames.isEmpty())
+                clientNames += clients.getName();
+            else
+                clientNames += (";" + clients.getName());
+        }
+        broadcastMsg("/cL#" +clientNames);
+
         broadcastMsg("======/" + client.getName() + " покинул чат!/======");
     }
 
@@ -71,6 +91,7 @@ public class ServerMain {
         }
     }
 
+
     //Сообщение на всех от Сервера
     public void broadcastMsg(String msgAll) {
         System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")) +": "+ msgAll);
@@ -85,5 +106,15 @@ public class ServerMain {
         for (ClientHandler clients:clientPool) {
             clients.sendMsg(client.getName() + ": " + msgAll);
         }
+    }
+
+    //Проверка существования пользователя
+    public boolean checkClient(String nikName){
+        boolean res=false;
+        for (ClientHandler clients:clientPool) {
+            if (clients.getName().equals(nikName))
+                res = true;
+        }
+        return res;
     }
 }
