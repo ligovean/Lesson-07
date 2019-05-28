@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
@@ -14,10 +15,13 @@ public class ServerMain {
     Socket socket = null;
     String clientName = "";
 
-    public ServerMain() {
+    public ServerMain() throws SQLException {
 
         {
             try {
+
+                AuthServ.connect();
+
                 serverSocket = new ServerSocket(9999);
                 System.out.println("Сервер запущен...");
 

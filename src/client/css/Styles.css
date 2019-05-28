@@ -1,4 +1,9 @@
-#HBox {
+#topPanel {
+    -fx-background-image: url("img/patt01.png");
+    -fx-background-position: left top;
+    -fx-background-repeat: repeat;
+}
+#bottomPanel {
     -fx-background-image: url("img/patt01.png");
     -fx-background-position: left top;
     -fx-background-repeat: repeat;

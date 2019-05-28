@@ -10,12 +10,17 @@
 <?import java.net.URL?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.PasswordField?>
 <VBox fx:id="VBox" alignment="TOP_LEFT" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.sample.Controller">
 
     <stylesheets><URL value="@/client/css/Styles.css"/></stylesheets>
-
+    <HBox fx:id="topPanel">
+        <TextField HBox.hgrow="ALWAYS" promptText="Логин" fx:id="loginFiled"></TextField>
+        <PasswordField promptText="Пароль" fx:id="passwordField" onAction="#auth"/>
+        <Button text="Авторизоваться" onAction="#auth"/>
+    </HBox>
     <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
-    <HBox fx:id="HBox">
+    <HBox fx:id="bottomPanel" managed="false" visible="false">
         <ComboBox fx:id="comboBox"/>
         <TextField fx:id="textField" onAction="#sendMsg" promptText="Enter your message here.." HBox.hgrow="ALWAYS" />
         <Button fx:id="btn1" onAction="#sendMsg" text="SEND"/>

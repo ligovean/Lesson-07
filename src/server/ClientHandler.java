@@ -33,7 +33,7 @@ public class ClientHandler {
                             if (newNick != null) {
                                 sendMsg("/authok");
                                 clientName = newNick;
-                                server.connect(ClientHandler.this);
+                                    server.connect(ClientHandler.this);
                                 break;
                             } else {
                                 sendMsg("Неверный логин/пароль!");
