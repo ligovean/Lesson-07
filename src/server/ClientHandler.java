@@ -15,7 +15,7 @@ public class ClientHandler {
     public ClientHandler(Socket socket, ServerMain server) {
             this.socket = socket;
             this.server = server;
-            this.clientName = ""+socket.getRemoteSocketAddress();
+            this.clientName = "" + socket.getRemoteSocketAddress();
 
         new Thread(new Runnable() {
             @Override
@@ -25,13 +25,21 @@ public class ClientHandler {
                     output = new DataOutputStream(socket.getOutputStream());
 
                     //АВТОРИЗАЦИЯ
-                    //TODO;
-                    //while (true){
-                        //Удачная авторизация
-
-                     //clientName ="nickName";
-                    server.connect(ClientHandler.this);
-                    //}
+                    while (true) {
+                        String str = input.readUTF();
+                        if(str.startsWith("/auth")) {
+                            String[] tokens = str.split(" ");
+                            String newNick = AuthServ.getNameByLogPass(tokens[1], tokens[2]);
+                            if (newNick != null) {
+                                sendMsg("/authok");
+                                clientName = newNick;
+                                server.connect(ClientHandler.this);
+                                break;
+                            } else {
+                                sendMsg("Неверный логин/пароль!");
+                            }
+                        }
+                    }
 
                     //СООБЩЕНИЯ
                     while (true) {
