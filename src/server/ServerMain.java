@@ -53,10 +53,10 @@ public class ServerMain {
         //Передача списка клиентов
         String clientNames="";
         for (ClientHandler clients:clientPool) {
-            //if (clientNames.isEmpty())
-                clientNames += clients.getName()+";";
-            //else
-              //  clientNames += (";" + clients.getName());
+            if (clientNames.isEmpty())
+                clientNames += clients.getName();
+            else
+                clientNames += (";" + clients.getName());
         }
         broadcastMsg("/cL#" +clientNames);//Отправка списка Клиентов
         broadcastMsg("======/" + client.getName() + " вошел в чат!/======");

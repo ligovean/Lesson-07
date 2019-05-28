@@ -92,10 +92,9 @@ public class Controller{
                         while (true) {
                                 msg = input.readUTF();
                                 if (msg.startsWith("/cL#")) {
-                                    msg=msg.replace(selfName+";","");
+                                    //msg=msg.replace(selfName+";","");
                                     msg.substring(msg.indexOf('#') + 1, msg.length()).split(";");
                                     clietntsList = Arrays.asList(msg.substring(msg.indexOf('#') + 1, msg.length()).split(";"));
-                                    System.out.println(clietntsList);
 
                                     comboBox.getItems().clear();
                                     //comboBox.getItems().addAll("Всем");
