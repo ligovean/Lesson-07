@@ -51,7 +51,7 @@ public class ServerMain {
         //Трансляция сообщения о том, что клиент вошел в чат
         clientPool.add(client);
         //Передача списка клиентов
-        String clientNames="";
+        String clientNames="Всем";
         for (ClientHandler clients:clientPool) {
             if (clientNames.isEmpty())
                 clientNames += clients.getName();
@@ -67,7 +67,7 @@ public class ServerMain {
         clientPool.remove(client);
 
         //Передача списка клиентов
-        String clientNames="";
+        String clientNames="Всем";
         for (ClientHandler clients:clientPool) {
             if (clientNames.isEmpty())
                 clientNames += clients.getName();

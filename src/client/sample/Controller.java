@@ -92,13 +92,8 @@ public class Controller{
                         while (true) {
                                 msg = input.readUTF();
                                 if (msg.startsWith("/cL#")) {
-
-                                    msg.substring(msg.indexOf('#') + 1, msg.length()).split(";");
                                     clietntsList = Arrays.asList(msg.substring(msg.indexOf('#') + 1, msg.length()).split(";"));
-
-                                    comboBox.getItems().clear();
-                                    comboBox.getItems().addAll("Всем");
-                                    comboBox.getItems().addAll(clietntsList);
+                                    updClientLst(clietntsList);
                                 }
                                /* else if (msg.startsWith("/sN#")){
                                     selfName = msg.substring(msg.indexOf('#') + 1, msg.length());
@@ -164,8 +159,11 @@ public class Controller{
 
     public void disconnect(){
         textArea.appendText("======/Нет связи с сервером/=====\n");
-//        btn1.setDisable(true);
-//        textField.setDisable(true);
         textField.setText("Нет связи с сервером");
+    }
+    public void updClientLst(List clietntsList){
+        comboBox.getItems().clear();
+        //comboBox.getItems().addAll("Всем");
+        comboBox.getItems().addAll(clietntsList);
     }
 }
