@@ -92,12 +92,12 @@ public class Controller{
                         while (true) {
                                 msg = input.readUTF();
                                 if (msg.startsWith("/cL#")) {
-                                    //msg=msg.replace(selfName+";","");
+
                                     msg.substring(msg.indexOf('#') + 1, msg.length()).split(";");
                                     clietntsList = Arrays.asList(msg.substring(msg.indexOf('#') + 1, msg.length()).split(";"));
 
                                     comboBox.getItems().clear();
-                                    //comboBox.getItems().addAll("Всем");
+                                    comboBox.getItems().addAll("Всем");
                                     comboBox.getItems().addAll(clietntsList);
                                 }
                                /* else if (msg.startsWith("/sN#")){
@@ -150,7 +150,7 @@ public class Controller{
             //textArea.appendText(textField.getText() + "\n");
             try {
                 System.out.println(comboBox.getValue());
-                if (comboBox.getValue() == null)
+                if (comboBox.getValue() == null ||comboBox.getValue().equals("Всем"))
                     output.writeUTF(textField.getText());
                 else
                     output.writeUTF("/w#"+comboBox.getValue()+"#"+textField.getText());
